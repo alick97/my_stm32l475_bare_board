@@ -11,42 +11,33 @@
 			\_| |_/\_____/\___/ \____/ \_| \_/  \_/  \____/ \_| \_/
 
  *	******************************************************************************
- *	???? Pandora STM32L475 IoT???	??0-1
- *	Template????????????
- *	????:www.openedv.com
- *	????:http://openedv.taobao.com
- *	???????????:"????",????STM32???
- *	?????????????
- *	??:???? @ALIENTEK
+ *	正点原子 Pandora STM32L475 IoT开发板	实验0-1
+ *	Template工程模板-调试章节使用
+ *	技术支持：www.openedv.com
+ *	淘宝店铺：http://openedv.taobao.com
+ *	关注微信公众平台微信号："正点原子"，免费获取STM32资料。
+ *	广州市星翼电子科技有限公司
+ *	作者：正点原子 @ALIENTEK
  *	******************************************************************************/
 
 
-void Delay(__IO uint32_t nCount);
-void Delay(__IO uint32_t nCount)
-{
-    while(nCount--) {};
-}
+/*注意：本工程和教程3.4小节程序下载调试工程对应*/
 
 int main(void)
 {
-    GPIO_InitTypeDef GPIO_InitStruct;
+	u8 t = 0;
 
-    HAL_Init();                         //???HAL?
-    SystemClock_Config();	            //????????80M
-	
-    __HAL_RCC_GPIOE_CLK_ENABLE();       //??GPIOE??
-
-    GPIO_InitStruct.Pin = GPIO_PIN_7;
-    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP; 	//????
-    GPIO_InitStruct.Pull = GPIO_PULLUP;				//??
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;	//??
-    HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
-
+    HAL_Init();                         //初始化HAL库
+    SystemClock_Config();	            //初始化系统时钟为80M
+    delay_init(80);                		//初始化延时函数
+	uart_init(115200);					//初始化串口1波特率为115200
+   
     while(1)
     {
-        HAL_GPIO_WritePin(GPIOE, GPIO_PIN_7, GPIO_PIN_SET); 	//PE7 ?1
-        Delay(0x7FFFFF);
-        HAL_GPIO_WritePin(GPIOE, GPIO_PIN_7, GPIO_PIN_RESET);	//PE7 ?0
-        Delay(0x7FFFFF);
+        printf("t:%d\r\n", t);
+        delay_ms(500);					//ALIENTEK提供的延时函数,这里延时了500ms
+        t++;
     }
 }
+
+
