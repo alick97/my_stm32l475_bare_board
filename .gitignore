@@ -1,0 +1,4 @@
+# build tmp dir
+OBJ/*
+.vscode
+
