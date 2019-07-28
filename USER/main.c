@@ -3,6 +3,7 @@
 // #include "usart.h"
 #include "led.h"
 #include "beep.h"
+#include "key.h"
 
 /*********************************************************************************
 			  ___   _     _____  _____  _   _  _____  _____  _   __
@@ -27,25 +28,44 @@
 
 int main(void)
 {
-		// u8 t = 0;
+		u8 key;
 
     HAL_Init();                         //初始化HAL库
     SystemClock_Config();	            //初始化系统时钟为80M
     delay_init(80);                		//初始化延时函数
-		// uart_init(115200);					//初始化串口1波特率为115200
    
 	  LED_Init();				//初始化LED
     BEEP_Init();			//初始化蜂鸣器
+	  KEY_Init();       // init key
+	
 
     while(1)
     {
-        BEEP(1);
-        delay_ms(500);
-			  LED_G(1);
-        BEEP(0);
-        delay_ms(1000);
-			  LED_G(0);
+				key = KEY_Scan(0); // not support press in series
 			
+			  switch(key)
+				{
+					case WKUP_PRES:
+						BEEP_TogglePin;
+					  break;
+					
+					case KEY2_PRES:
+						LED_B_TogglePin;
+					  break;
+					
+					case KEY1_PRES:
+						LED_G_TogglePin;
+						break;
+					
+					case KEY0_PRES:
+						LED_R_TogglePin;
+						break;
+					
+					default:
+						break;
+				}
+			
+				delay_ms(10);
     }
 }
 

@@ -337,7 +337,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER, STM32L475xx</Define>
               <Undefine></Undefine>
-              <IncludePath>..\CORE;..\USER;..\SYSTEM\delay;..\SYSTEM\usart;..\SYSTEM\sys;..\HALLIB\STM32L4xx_HAL_Driver\Inc;..\HARDWARE\BEEP;..\HARDWARE\LED</IncludePath>
+              <IncludePath>..\CORE;..\USER;..\SYSTEM\delay;..\SYSTEM\usart;..\SYSTEM\sys;..\HALLIB\STM32L4xx_HAL_Driver\Inc;..\HARDWARE\BEEP;..\HARDWARE\LED;..\HARDWARE\KEY</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -965,6 +965,16 @@
               <FileName>led.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\HARDWARE\LED\led.h</FilePath>
+            </File>
+            <File>
+              <FileName>key.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\KEY\key.c</FilePath>
+            </File>
+            <File>
+              <FileName>key.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\HARDWARE\KEY\key.h</FilePath>
             </File>
           </Files>
         </Group>
