@@ -1,6 +1,8 @@
 #include "sys.h"
 #include "delay.h"
-#include "usart.h"
+// #include "usart.h"
+#include "led.h"
+#include "beep.h"
 
 /*********************************************************************************
 			  ___   _     _____  _____  _   _  _____  _____  _   __
@@ -25,18 +27,25 @@
 
 int main(void)
 {
-	u8 t = 0;
+		// u8 t = 0;
 
     HAL_Init();                         //初始化HAL库
     SystemClock_Config();	            //初始化系统时钟为80M
     delay_init(80);                		//初始化延时函数
-	uart_init(115200);					//初始化串口1波特率为115200
+		// uart_init(115200);					//初始化串口1波特率为115200
    
+	  LED_Init();				//初始化LED
+    BEEP_Init();			//初始化蜂鸣器
+
     while(1)
     {
-        printf("t:%d\r\n", t);
-        delay_ms(500);					//ALIENTEK提供的延时函数,这里延时了500ms
-        t++;
+        BEEP(1);
+        delay_ms(500);
+			  LED_G(1);
+        BEEP(0);
+        delay_ms(1000);
+			  LED_G(0);
+			
     }
 }
 
