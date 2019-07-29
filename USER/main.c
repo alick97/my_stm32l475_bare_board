@@ -2,7 +2,7 @@
 #include "delay.h"
 #include "usart.h"
 #include "led.h"
-#include "timer.h"
+#include "pwm.h"
 
 
 /*********************************************************************************
@@ -26,6 +26,11 @@
 
 int main(void)
 {
+		u8 time = 0;
+    u8 speed = 1;				//速度控制		0:加速		1：减速
+    u8 dir = 1;					//正反转标志	0:电机正转	1：电机反转
+    u16 pwmval = 500;			//默认值
+
     HAL_Init();                         //初始化HAL库
     SystemClock_Config();	            //初始化系统时钟为80M
     delay_init(80);                		//初始化延时函数
@@ -33,12 +38,40 @@ int main(void)
 	
 	  LED_Init();				//初始化LED
 	  
-	  TIM3_Init(5000 - 1, 8000 - 1); 	//定时器3初始化，定时器时钟为80M，分频系数为8000-1，
-		                                //所以定时器3的频率为80M/8000=10K，自动重装载为5000-1，那么定时器周期就是500ms
+	  PWM_Init(1000 - 1, 80 - 1); 	//TIM2时钟频率 80M/80=1M   计数频率1M/1000=1KHZ     默认占空比为50%
     while(1)
     {
-			  LED_R_TogglePin;
-			  delay_ms(100);
+			  if (speed)
+				{
+					  pwmval += 5;
+				}
+				else
+				{
+				    pwmval -= 5;
+				}
+				if (pwmval >= 1000) speed = 0;
+				if (pwmval <= 500) {
+				    speed = 1;
+					  dir = dir ^ 0x01;
+				}
+				
+				if (dir)
+				{
+				    TIM_SetTIM2Compare1(pwmval);
+					  TIM_SetTIM2Compare2(0);
+				}
+				else
+				{
+				    TIM_SetTIM2Compare1(0);
+					  TIM_SetTIM2Compare2(pwmval);
+				}
+				
+				time++;
+				if (time % 20 == 0)
+				{
+				    LED_B_TogglePin;
+					  delay_ms(15);
+				}
     }
 
 }
