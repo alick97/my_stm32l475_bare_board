@@ -1,6 +1,6 @@
 #include "sys.h"
 #include "delay.h"
-// #include "usart.h"
+#include "usart.h"
 #include "led.h"
 #include "beep.h"
 #include "key.h"
@@ -28,44 +28,46 @@
 
 int main(void)
 {
-		u8 key;
+		u8 len = 0;
+	  u16 times = 0;
 
     HAL_Init();                         //初始化HAL库
     SystemClock_Config();	            //初始化系统时钟为80M
     delay_init(80);                		//初始化延时函数
-   
+    uart_init(115200);
+	
 	  LED_Init();				//初始化LED
-    BEEP_Init();			//初始化蜂鸣器
 	  KEY_Init();       // init key
+    
 	
 
     while(1)
     {
-				key = KEY_Scan(0); // not support press in series
-			
-			  switch(key)
+        if (USART_RX_STA & 0x8000)
 				{
-					case WKUP_PRES:
-						BEEP_TogglePin;
-					  break;
+				    len = USART_RX_STA & 0x3fff;
+					  printf("\r\nyour send message is:\r\n");
+					  HAL_UART_Transmit(&UART1_Handler, (uint8_t*)USART_RX_BUF, len, 1000);
+					  
+					  while(__HAL_UART_GET_FLAG(&UART1_Handler, UART_FLAG_TC) != SET);
 					
-					case KEY2_PRES:
-						LED_B_TogglePin;
-					  break;
-					
-					case KEY1_PRES:
-						LED_G_TogglePin;
-						break;
-					
-					case KEY0_PRES:
-						LED_R_TogglePin;
-						break;
-					
-					default:
-						break;
+					  printf("\r\n\r\n");
+					  USART_RX_STA = 0;
 				}
-			
-				delay_ms(10);
+				else
+				{
+				    times++;
+					
+					  if (times % 5000 == 0)
+						{
+						    printf("\r\n ALIENTEK STM32L475 USART TEST\r\n");
+						}
+						
+						if (times % 200 == 0) printf("Please input content, enter to finish\r\n");
+						if (times % 30 == 0) LED_B_TogglePin;
+						
+						delay_ms(10);
+				}
     }
 }
 
