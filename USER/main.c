@@ -2,7 +2,7 @@
 #include "delay.h"
 #include "usart.h"
 #include "led.h"
-#include "pwm.h"
+#include "lcd.h"
 
 
 /*********************************************************************************
@@ -26,10 +26,7 @@
 
 int main(void)
 {
-		u8 time = 0;
-    u8 speed = 1;				//速度控制		0:加速		1：减速
-    u8 dir = 1;					//正反转标志	0:电机正转	1：电机反转
-    u16 pwmval = 500;			//默认值
+		u8 color = 0;
 
     HAL_Init();                         //初始化HAL库
     SystemClock_Config();	            //初始化系统时钟为80M
@@ -38,40 +35,67 @@ int main(void)
 	
 	  LED_Init();				//初始化LED
 	  
-	  PWM_Init(1000 - 1, 80 - 1); 	//TIM2时钟频率 80M/80=1M   计数频率1M/1000=1KHZ     默认占空比为50%
-    while(1)
+	  LCD_Init();				//初始化LCD
+    
+	  while(1)
     {
-			  if (speed)
-				{
-					  pwmval += 5;
-				}
-				else
-				{
-				    pwmval -= 5;
-				}
-				if (pwmval >= 1000) speed = 0;
-				if (pwmval <= 500) {
-				    speed = 1;
-					  dir = dir ^ 0x01;
-				}
-				
-				if (dir)
-				{
-				    TIM_SetTIM2Compare1(pwmval);
-					  TIM_SetTIM2Compare2(0);
-				}
-				else
-				{
-				    TIM_SetTIM2Compare1(0);
-					  TIM_SetTIM2Compare2(pwmval);
-				}
-				
-				time++;
-				if (time % 20 == 0)
-				{
-				    LED_B_TogglePin;
-					  delay_ms(15);
-				}
+			  switch(color % 12)
+        {
+            case 0:
+                LCD_Clear(WHITE);
+                break;
+            case 1:
+                LCD_Clear(BLACK);
+                break;
+            case 2:
+                LCD_Clear(BLUE);
+                break;
+            case 3:
+                LCD_Clear(RED);
+                break;
+            case 4:
+                LCD_Clear(MAGENTA);
+                break;
+            case 5:
+                LCD_Clear(GREEN);
+                break;
+            case 6:
+                LCD_Clear(CYAN);
+                break;
+            case 7:
+                LCD_Clear(YELLOW);
+                break;
+            case 8:
+                LCD_Clear(BRRED);
+                break;
+            case 9:
+                LCD_Clear(GRAY);
+                break;
+            case 10:
+                LCD_Clear(LGRAY);
+                break;
+            case 11:
+                LCD_Clear(BROWN);
+                break;
+            default :
+                color = 0;
+                break;
+        }
+
+        Display_ALIENTEK_LOGO(0, 0);
+        POINT_COLOR = RED;
+        BACK_COLOR = WHITE;
+        LCD_ShowString(0, 100, 240, 32, 32, "Pandora STM32L4");
+        LCD_ShowString(0, 140, 240, 24, 24, "TFTLCD TEST 240*240");
+
+        POINT_COLOR = WHITE;
+        BACK_COLOR = BLUE;
+        LCD_ShowString(0, 170, 240, 16, 16, "ATOM@ALIENTEK");
+        LCD_ShowString(0, 200, 240, 12, 12, "2018/10/28");
+				LCD_ShowString(0, 220, 240, 12, 12, "-- alick --");
+        color++;
+        LED_B_TogglePin;
+        delay_ms(1000);
     }
 
 }
