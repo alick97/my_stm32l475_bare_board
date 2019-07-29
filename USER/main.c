@@ -2,10 +2,7 @@
 #include "delay.h"
 #include "usart.h"
 #include "led.h"
-#include "beep.h"
-#include "key.h"
-#include "exti.h"
-#include "wwdg.h"
+#include "timer.h"
 
 
 /*********************************************************************************
@@ -35,18 +32,13 @@ int main(void)
     uart_init(115200);
 	
 	  LED_Init();				//初始化LED
-	  KEY_Init();
-
-	  delay_ms(1000);
-	  LED_B(0);
-	
-	  WWDG_Init(0x7F, 0x5F, WWDG_PRESCALER_8); // /计数器值为7F，窗口寄存器为5F，分频数为8
-	
+	  
+	  TIM3_Init(5000 - 1, 8000 - 1); 	//定时器3初始化，定时器时钟为80M，分频系数为8000-1，
+		                                //所以定时器3的频率为80M/8000=10K，自动重装载为5000-1，那么定时器周期就是500ms
     while(1)
     {
-			  LED_R(0);
-			  delay_ms(1);
-        LED_R(1);							//熄灭LED_R灯
+			  LED_R_TogglePin;
+			  delay_ms(100);
     }
 
 }
