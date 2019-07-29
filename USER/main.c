@@ -4,6 +4,7 @@
 #include "led.h"
 #include "beep.h"
 #include "key.h"
+#include "exti.h"
 
 /*********************************************************************************
 			  ___   _     _____  _____  _   _  _____  _____  _   __
@@ -28,46 +29,21 @@
 
 int main(void)
 {
-		u8 len = 0;
-	  u16 times = 0;
-
     HAL_Init();                         //初始化HAL库
     SystemClock_Config();	            //初始化系统时钟为80M
     delay_init(80);                		//初始化延时函数
     uart_init(115200);
 	
 	  LED_Init();				//初始化LED
-	  KEY_Init();       // init key
+	  BEEP_Init();
+	  EXTI_Init();      // extern interrupt
     
 	
 
     while(1)
     {
-        if (USART_RX_STA & 0x8000)
-				{
-				    len = USART_RX_STA & 0x3fff;
-					  printf("\r\nyour send message is:\r\n");
-					  HAL_UART_Transmit(&UART1_Handler, (uint8_t*)USART_RX_BUF, len, 1000);
-					  
-					  while(__HAL_UART_GET_FLAG(&UART1_Handler, UART_FLAG_TC) != SET);
-					
-					  printf("\r\n\r\n");
-					  USART_RX_STA = 0;
-				}
-				else
-				{
-				    times++;
-					
-					  if (times % 5000 == 0)
-						{
-						    printf("\r\n ALIENTEK STM32L475 USART TEST\r\n");
-						}
-						
-						if (times % 200 == 0) printf("Please input content, enter to finish\r\n");
-						if (times % 30 == 0) LED_B_TogglePin;
-						
-						delay_ms(10);
-				}
+        printf("OK\r\n");
+			  delay_ms(1000);
     }
 }
 
