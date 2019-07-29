@@ -5,6 +5,8 @@
 #include "beep.h"
 #include "key.h"
 #include "exti.h"
+#include "iwdg.h"
+
 
 /*********************************************************************************
 			  ___   _     _____  _____  _   _  _____  _____  _   __
@@ -25,8 +27,6 @@
  *	******************************************************************************/
 
 
-/*注意：本工程和教程3.4小节程序下载调试工程对应*/
-
 int main(void)
 {
     HAL_Init();                         //初始化HAL库
@@ -35,16 +35,22 @@ int main(void)
     uart_init(115200);
 	
 	  LED_Init();				//初始化LED
-	  BEEP_Init();
-	  EXTI_Init();      // extern interrupt
-    
-	
+	  KEY_Init();
 
-    while(1)
-    {
-        printf("OK\r\n");
-			  delay_ms(1000);
-    }
+	  delay_ms(100);
+	  IWDG_Init(IWDG_PRESCALER_64, 500); // over time = 1s, (4*2^4*500/32=1000ms)
+	  LED_B(0);
+	
+	  while (1)
+		{
+		    if (KEY_Scan(0) == WKUP_PRES)
+				{
+				    IWDG_Feed();
+				}
+				
+				delay_ms(10);
+		}
+
 }
 
 
