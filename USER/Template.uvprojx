@@ -337,7 +337,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER, STM32L475xx</Define>
               <Undefine></Undefine>
-              <IncludePath>..\CORE;..\USER;..\SYSTEM\delay;..\SYSTEM\usart;..\SYSTEM\sys;..\HALLIB\STM32L4xx_HAL_Driver\Inc;..\HARDWARE\BEEP;..\HARDWARE\LED;..\HARDWARE\KEY;..\HARDWARE\EXTI;..\HARDWARE\IWDG</IncludePath>
+              <IncludePath>..\CORE;..\USER;..\SYSTEM\delay;..\SYSTEM\usart;..\SYSTEM\sys;..\HALLIB\STM32L4xx_HAL_Driver\Inc;..\HARDWARE\BEEP;..\HARDWARE\LED;..\HARDWARE\KEY;..\HARDWARE\EXTI;..\HARDWARE\IWDG;..\HARDWARE\WWDG</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -985,6 +985,11 @@
               <FileName>iwdg.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\IWDG\iwdg.c</FilePath>
+            </File>
+            <File>
+              <FileName>wwdg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\WWDG\wwdg.c</FilePath>
             </File>
           </Files>
         </Group>
