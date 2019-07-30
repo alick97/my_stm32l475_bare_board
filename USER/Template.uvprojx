@@ -337,7 +337,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER, STM32L475xx</Define>
               <Undefine></Undefine>
-              <IncludePath>..\CORE;..\USER;..\SYSTEM\delay;..\SYSTEM\usart;..\SYSTEM\sys;..\HALLIB\STM32L4xx_HAL_Driver\Inc;..\HARDWARE\BEEP;..\HARDWARE\LED;..\HARDWARE\KEY;..\HARDWARE\EXTI;..\HARDWARE\IWDG;..\HARDWARE\WWDG;..\HARDWARE\TIMER;..\HARDWARE\PWM;..\HARDWARE\SPI3;..\HARDWARE\LCD</IncludePath>
+              <IncludePath>..\CORE;..\USER;..\SYSTEM\delay;..\SYSTEM\usart;..\SYSTEM\sys;..\HALLIB\STM32L4xx_HAL_Driver\Inc;..\HARDWARE\BEEP;..\HARDWARE\LED;..\HARDWARE\KEY;..\HARDWARE\EXTI;..\HARDWARE\IWDG;..\HARDWARE\WWDG;..\HARDWARE\TIMER;..\HARDWARE\PWM;..\HARDWARE\SPI3;..\HARDWARE\LCD;..\HARDWARE\USMART</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1010,6 +1010,21 @@
               <FileName>spi3.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\SPI3\spi3.c</FilePath>
+            </File>
+            <File>
+              <FileName>usmart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\USMART\usmart.c</FilePath>
+            </File>
+            <File>
+              <FileName>usmart_config.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\USMART\usmart_config.c</FilePath>
+            </File>
+            <File>
+              <FileName>usmart_str.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\USMART\usmart_str.c</FilePath>
             </File>
           </Files>
         </Group>
