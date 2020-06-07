@@ -8,9 +8,9 @@
  * 2018-11-06     SummerGift   first version
  */
 
-#include "led_sample.h"
+#include "key_sample.h"
 
 int main(void) {
-    led_sample();
+    key_sample();
     return RT_EOK;
 }
